@@ -32,7 +32,7 @@ def FindClumps(g, k, L, t):
             patterns.add(s)
 
         # sliding
-    for i in range(1, len(g) - L + 1):
+    for i in range(1, n - L + 1):
 
         # pattern خرج
         firstPattern = g[i-1:i-1+k]

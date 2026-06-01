@@ -1,7 +1,6 @@
 # to detect ori 
 
 from skew import skeww
-import requests
 
 def main ():
     genome = input("genome: ").strip()

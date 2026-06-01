@@ -1,3 +1,4 @@
+# ori detect depend on CG content 
 def main():
     genome = input("genome: ")
     skew = skeww(genome)

@@ -1,3 +1,4 @@
+# find the location of the patterns 
 pattern = "ATA"
 '''
 with open("text.txt") as f:    

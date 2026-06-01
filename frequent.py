@@ -1,7 +1,6 @@
 # count the frequency of each k-mer in the text and return the most frequent k-mers
 from collections import defaultdict
 
-
 def main():
     text = input("Text:")
     k = int(input("k:"))

@@ -1,4 +1,4 @@
-
+# detect mismatch between the patterns 
 def main():
     text1 = input("text1: ").strip()
     text2 = input("text2: ").strip()
