@@ -6,7 +6,8 @@ def main ():
     #input : k, mismatch, collection of dna strings
     k = int(input("K: "))
     m = int(input("M: "))
-    genome = input("genome: ").strip().split()
+    genome = []
+    genome = input("genome: ").split(" ")
     print(motif(genome, k, m))
 
 #Brute force approach(EXahustive search)
