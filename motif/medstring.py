@@ -12,11 +12,11 @@ def main():
 def median_string(dna, k):
     distance = float('inf')
     patterns = Allstrings(k,dna)
-    Median = None
+    Median = [] # edit from none 
     for p in patterns:
         if distance > d(p, dna):
              distance = d(p,dna)
-             Median = p
+             Median.append(p) # edit from = p
     return Median
 
 def d(pattern, Dna):
