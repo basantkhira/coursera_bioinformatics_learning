@@ -18,7 +18,7 @@ def greedy(dna,k,t):
             Profile = build_profile(Motifs)
             Motifj = most_probable_kmer(Profile, dna[j], k)
             Motifs.append(Motifj)
-        if find_score(Motifs) < find_score(Bestmotifs):
+        if score(Motifs) < score(Bestmotifs):
             Bestmotifs = Motifs
     return Bestmotifs
         
@@ -46,7 +46,7 @@ def build_profile(motifs):
             profile[i][nuc] /= (n + 4) # add 4 for the pseudocounts
     return profile
 
-def find_score(motifs):
+def score(motifs):
     score = 0
     for i in range(len(motifs[0])):
         column = [motif[i] for motif in motifs]
