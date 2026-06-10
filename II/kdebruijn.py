@@ -1,9 +1,8 @@
-# from string 
+# from k-mers
 def main():
-    k = int(input("k: "))
-    text = input("Text: ")
+    patterns = input("patterns: ").split(" ")
     
-    graph = de_bruijn(k, text)
+    graph = de_bruijn(patterns)
     
     with open("output3.txt", "w") as f:
         for node, neighbors in sorted(graph.items()):
@@ -11,13 +10,12 @@ def main():
             f.write(line + "\n")
             
             
-def de_bruijn(k, text):
+def de_bruijn(patterns):
     edges = {}
     
-    for i in range(len(text) - k + 1):
-        kmer = text[i:i+k]
-        prefix = kmer[:-1]   # first k-1 characters
-        suffix = kmer[1:]    # last k-1 characters
+    for pattern in patterns:
+        prefix = pattern[:-1]   # first k-1 characters
+        suffix = pattern[1:]    # last k-1 characters
         
         if prefix not in edges:
             edges[prefix] = []
