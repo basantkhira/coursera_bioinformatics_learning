@@ -12,8 +12,8 @@ def StringSpelledByGappedPatterns(patterns, k, d):
     pattern1 =[]
     pattern2 = []
     for pair in patterns:
-        pattern1.append(pair.split("|")[0])
-        pattern2.append(pair.split("|")[1])
+        pattern1.append(pair[0]) #.split("|")
+        pattern2.append(pair[1]) #.split("|")
         
 
     prefix_string = StringSpelledByPatterns(pattern1)
