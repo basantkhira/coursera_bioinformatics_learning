@@ -1,12 +1,18 @@
 from collections import defaultdict
 from Eulerianpath import eulerian_path
 from gappedgenome import StringSpelledByGappedPatterns
+import requests
 
 def main():
     k     = int(input("k: "))
     d     = int(input("d: "))
-    pairs = input("text: ").split(" ")
+    pairs = list()
+    with open ("reads.txt","r") as f:
+        for line in f:
+            pairs.append(line)
+    #pairs = text.split(" ")
     graph = build_paired_debruijn(pairs)
+    print(graph)
     path = eulerian_path(graph)
     string = StringSpelledByGappedPatterns(path,k,d)
     print(string)

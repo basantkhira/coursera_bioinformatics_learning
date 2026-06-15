@@ -1,8 +1,6 @@
 # from k-mers
 def main():
-    patterns = input("patterns: ").split(" ")
-    
-    graph = de_bruijn(patterns)
+    graph = de_bruijn(input("patterns: "))
     
     with open("output3.txt", "w") as f:
         for node, neighbors in sorted(graph.items()):
@@ -10,7 +8,9 @@ def main():
             f.write(line + "\n")
             
             
-def de_bruijn(patterns):
+def de_bruijn(text):
+    patterns = text.split(" ")
+    
     edges = {}
     
     for pattern in patterns:

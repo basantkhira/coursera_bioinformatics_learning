@@ -18,6 +18,7 @@ def main():
     with open("output.txt", "w") as f:
         f.write(result)
 
+
 def find_start_end(graph):
     in_degree = defaultdict(int)
     out_degree = defaultdict(int)
@@ -46,19 +47,38 @@ def eulerian_path(graph):
         adj[node].extend(neighbors)
     
     start, end = find_start_end(graph)
+    is_circuit = (start is None)
     
-    # Add a virtual edge from end → start to make it a cycle
-    adj[end].append(start)
-    
-    # Run Eulerian cycle
-    cycle = eulerian_cycle(adj)
+    if is_circuit:
+        # pick any node that has outgoing edges as start
+        for node in adj:
+            if adj[node]:
+                start = node
+                break
+    else:
+        # convert path → circuit with a virtual edge
+        adj[end].append(start)
 
-    # Remove the virtual edge (find where start→end appears and cut there)
+    # Hierholzer
+    stack, cycle = [start], []
+    while stack:
+        v = stack[-1]
+        if adj[v]:
+            stack.append(adj[v].pop())
+        else:
+            cycle.append(stack.pop())
+    cycle.reverse()
+
+    if is_circuit:
+        return cycle
+
+    # cut the virtual edge (end → start) out of the cycle
     for i in range(len(cycle) - 1):
-        if cycle[i] == end and cycle[i+1] == start:
-            path = cycle[i+1:] + cycle[1:i+1]
-    
-    return path
+        if cycle[i] == end and cycle[i + 1] == start:
+            path = cycle[i + 1:] + cycle[1:i + 1]
+            return path, False
+
+    return cycle  
 
 if __name__ == "__main__":
     main()
