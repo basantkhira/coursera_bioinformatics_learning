@@ -1,6 +1,5 @@
-import random
 from collections import defaultdict
-from Euleriancycle import eulerian_cycle
+
 def main():
     graph = {}
 
@@ -76,7 +75,7 @@ def eulerian_path(graph):
     for i in range(len(cycle) - 1):
         if cycle[i] == end and cycle[i + 1] == start:
             path = cycle[i + 1:] + cycle[1:i + 1]
-            return path, False
+            return path
 
     return cycle  
 

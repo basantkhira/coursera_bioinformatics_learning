@@ -1,5 +1,17 @@
-1: 2
-2: 3
-3: 4 5
-6: 7
-7: 6
+(ACC|ATA)
+(ACT|ATT)
+(ATA|TGA)
+(ATT|TGA)
+(CAC|GAT)
+(CCG|TAC)
+(CGA|ACT)
+(CTG|AGC)
+(CTG|TTC)
+(GAA|CTT)
+(GAT|CTG)
+(GAT|CTG)
+(TAC|GAT)
+(TCT|AAG)
+(TGA|GCT)
+(TGA|TCT)
+(TTC|GAA)

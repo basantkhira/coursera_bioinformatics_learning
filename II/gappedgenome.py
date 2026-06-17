@@ -1,5 +1,3 @@
-import sys
-
 
 def StringSpelledByPatterns(patterns):
     string = patterns[0]
