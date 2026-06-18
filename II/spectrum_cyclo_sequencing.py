@@ -1,80 +1,65 @@
-from theoretical_spectrum import cyclic_spectrum,linear_spectrum,masstable
+from theoretical_spectrum import cyclic_spectrum, linear_spectrum, masstable
 
-def score(peptide, spectrum, mass_table, cyclic=True):
-    
-    if cyclic:
-        pep_spectrum = cyclic_spectrum(peptide, mass_table)
-    else:
-        pep_spectrum = linear_spectrum(peptide, mass_table)
 
-    # Count matches (handle duplicates correctly)
-    target = list(spectrum)
-    count = 0
+def is_consistent(peptide, spectrum, mass_table):
+    """
+    Check if a linear peptide is consistent with the spectrum.
+    Every mass in the peptide's linear spectrum must appear in the target spectrum.
+    """
+    pep_spectrum = linear_spectrum(peptide, mass_table)
+    target = list(spectrum)  # copy so we can remove matches
     for mass in pep_spectrum:
         if mass in target:
             target.remove(mass)
-            count += 1
-    return count
+        else:
+            return False  # this mass is not in the spectrum → ban it
+    return True
 
 
-def trim(leaderboard, spectrum, n, mass_table):
-    if not leaderboard:
-        return leaderboard
-
-    scores = [(peptide, score(peptide, spectrum, mass_table, cyclic=False))
-              for peptide in leaderboard]
-    scores.sort(key=lambda x: x[1], reverse=True)
-
-    # Keep top N, but include ties at the cutoff
-    cutoff_score = scores[min(n, len(scores)) - 1][1]
-    return [p for p, s in scores if s >= cutoff_score]
-
-
-def cyclopeptide_sequencing(spectrum, mass_table, N=1000):
-
+def cyclopeptide_sequencing(spectrum, mass_table):
     parent_mass = max(spectrum)
     alphabet = list(mass_table.keys())
 
-    leaderboard = [""]   # start with empty peptide
-    leader_peptide = ""
-    leader_score = 0
+    candidates = [""]       # start with empty peptide
+    final_peptides = []
 
-    while leaderboard:
-        # Expand each peptide by one amino acid
-        leaderboard = [peptide + aa
-                       for peptide in leaderboard
-                       for aa in alphabet]
+    while candidates:
+        # Expand — add one amino acid to every candidate
+        candidates = [peptide + aa
+                      for peptide in candidates
+                      for aa in alphabet]
 
-        next_board = []
-        for peptide in leaderboard:
+        next_candidates = []
+        for peptide in candidates:
             pep_mass = sum(mass_table[aa] for aa in peptide)
 
             if pep_mass == parent_mass:
-                s = score(peptide, spectrum, mass_table, cyclic=True)
-                if s > leader_score:
-                    leader_score = s
-                    leader_peptide = peptide
-                next_board.append(peptide)
+                # Full length — check cyclic spectrum
+                if cyclic_spectrum(peptide, mass_table) == sorted(spectrum):
+                    masses = "-".join(str(mass_table[aa]) for aa in peptide)
+                    if masses not in final_peptides:
+                        final_peptides.append(masses)
+                # Don't keep it in candidates either way
 
             elif pep_mass < parent_mass:
-                next_board.append(peptide)
-        
+                # Still growing — check consistency and keep if consistent
+                if is_consistent(peptide, spectrum, mass_table):
+                    next_candidates.append(peptide)
+                # If inconsistent → silently drop it (the bounding step)
 
-        leaderboard = trim(next_board, spectrum, N, mass_table)
+        candidates = next_candidates
 
-    return leader_peptide, leader_score
+    return final_peptides
 
 
 if __name__ == "__main__":
     spectrum = list(map(int, input("Spectrum: ").strip().split()))
     mass_table = masstable()
 
-    peptide, s = cyclopeptide_sequencing(spectrum, mass_table, N=1000)
+    results = cyclopeptide_sequencing(spectrum, mass_table)
 
-    if peptide:
-        masses = "-".join(str(mass_table[aa]) for aa in peptide)
-        print(f"Best peptide : {peptide}")
-        print(f"As masses    : {masses}")
-        print(f"Score        : {s}")
+    if results:
+        for peptide in results:
+            print(peptide)
     else:
         print("No peptide found.")
