@@ -1,9 +1,16 @@
 def masstable():
-    mass_table ={}
-    with open("masstable.txt","r") as file:
+    mass_table = {}
+    seen_masses = set()
+    with open("masstable.txt", "r") as file:
         for line in file:
-            acid,mass = line.split()
-            mass_table[acid] = int(mass)
+            line = line.strip()
+            if not line:
+                continue
+            acid, mass = line.split()
+            mass = int(mass)
+            if mass not in seen_masses:
+                mass_table[acid] = mass
+                seen_masses.add(mass)
     return mass_table
 
 def cyclic_spectrum(peptide,mass_table):

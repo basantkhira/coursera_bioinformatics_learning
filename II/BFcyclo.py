@@ -5,7 +5,7 @@ def bf_cyclopeptide_sequencing(spectrum):
     parent_mass = max(spectrum)
     results = []
 
-    aa_masses = masstable().values
+    aa_masses = masstable().values()
 
     # BFS: generate all peptides whose mass == parent_mass
     queue = [[]]
