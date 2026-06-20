@@ -1,6 +1,6 @@
 # branch and bound algorithm
-from theoretical_spectrum import cyclic_spectrum, linear_spectrum, masstable
-
+from theoretical_spectrum import cyclic_spectrum, linear_spectrum, masstable,full_masstable
+from spectrum_to_peptide import masses_to_peptides
 
 def is_consistent(peptide, spectrum, mass_table):
     
@@ -50,10 +50,13 @@ def cyclopeptide_sequencing(spectrum, mass_table):
 if __name__ == "__main__":
     spectrum = list(map(int, input("Spectrum: ").strip().split()))
     mass_table = masstable()
+    full_table =full_masstable
 
     results = cyclopeptide_sequencing(spectrum, mass_table)
 
     if results:
+        for mass_string in results:
+            variants = masses_to_peptides(mass_string, full_table)
             print(" ".join(results))
     else:
         print("No peptide found.")

@@ -1,4 +1,4 @@
-from theoretical_spectrum import masstable
+from theoretical_spectrum import full_masstable 
 
 def masses_to_peptides(string, mass_table):
     
@@ -31,7 +31,7 @@ def masses_to_peptides(string, mass_table):
 
 
 if __name__ == "__main__":
-    mass_table = masstable()
+    mass_table = full_masstable()
     string = input("Enter mass string (e.g. 99-128-113-163): ").strip().split(" ")
     peptides =[]
     for st in string:
