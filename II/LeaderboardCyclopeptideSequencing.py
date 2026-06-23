@@ -1,6 +1,11 @@
-from theoretical_spectrum import masstable
 from Scoring_cyclospectrum import score,linear_score
+#updates for extended mass table
 
+def extended_mass_table():
+    extended_list = {}
+    for i in range(57,201):
+        extended_list[chr(i)] = i
+    return(extended_list)
 
 def trim(leaderboard, spectrum, n, mass_table):
     if not leaderboard:
@@ -25,7 +30,6 @@ def leaderboard_cyclopeptide_sequencing(spectrum, mass_table, N):
     alphabet = list(mass_table.keys())
 
     leaderboard = [""]
-    #leader_peptide = ""
     leader_peptides = [""]
     leader_score = 0 
     
@@ -37,7 +41,6 @@ def leaderboard_cyclopeptide_sequencing(spectrum, mass_table, N):
             pep_mass = sum(mass_table[aa] for aa in peptide)
 
             if pep_mass == parent_mass:
-                #if score(peptide, spectrum, mass_table) > score(leader_peptide, spectrum, mass_table):leader_peptide = peptide
                 s = score(peptide, spectrum, mass_table)
                 if s > leader_score:
                     leader_score = s
@@ -55,7 +58,7 @@ def leaderboard_cyclopeptide_sequencing(spectrum, mass_table, N):
 
 
 if __name__ == "__main__":
-    mass_table = masstable()
+    mass_table = extended_mass_table()
     N = int(input("N: ").strip())
     spectrum = list(map(int, input("Spectrum: ").strip().split()))
 
@@ -67,6 +70,3 @@ if __name__ == "__main__":
         masses = "-".join(str(mass_table[aa]) for aa in peptide)
         print(masses,end=" ")
     
-   
-    #print(f"\nLeaderPeptide: {result}")
-    #print(f"As masses: {masses}")
