@@ -1,3 +1,5 @@
+from collections import Counter
+
 def spectral_convolution(spectrum):
     result = []
     n = len(spectrum)
@@ -8,13 +10,7 @@ def spectral_convolution(spectrum):
             if diff > 0:
                 result.append(diff)
 
-    return result
-
-
-def spectral_convolution_with_counts(spectrum):
-    from collections import Counter
-    diffs = spectral_convolution(spectrum)
-    return Counter(diffs)
+    return Counter(result)
 
 def spectral_spectral_convolution_top_element(counts,M):
     filtered = {mass: cnt for mass, cnt in counts.items() if 57 <= mass <= 200}
@@ -28,13 +24,13 @@ def spectral_spectral_convolution_top_element(counts,M):
     
     threshold = sorted_elements[M - 1][1]  
     return [mass for mass, cnt in sorted_elements if cnt >= threshold]
+
+
     
 
 if __name__ == "__main__":
     spectrum = list(map(int,input("spectrum: ").split(" ")))
     M = int(input("M: ").strip())
-    
-    result = spectral_convolution(spectrum)
-    counts = spectral_convolution_with_counts(spectrum)
+    counts = spectral_convolution(spectrum)
     top = spectral_spectral_convolution_top_element(counts,M)
-    
+    print(top)
