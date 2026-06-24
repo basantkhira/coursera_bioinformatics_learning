@@ -5,8 +5,8 @@ from convolution import spectral_convolution, spectral_spectral_convolution_top_
 def convolution_cyclopeptide_sequencing(spectrum, M):
     counts = spectral_convolution(spectrum)
     top_masses = spectral_spectral_convolution_top_element(counts,M)
-    ## mass itself is the key, no chr() needed for the real spectrum 
-    mass_table = {mass: mass for mass in top_masses}
+
+    mass_table = {chr(mass): mass for mass in top_masses}
     
     return mass_table
 
@@ -14,7 +14,7 @@ def convolution_cyclopeptide_sequencing(spectrum, M):
 if __name__ == "__main__":
     M = int(input("M: ").strip())
     N = int(input("N: ").strip())
-    spectrum = list(map(float, input("Spectrum: ").strip().split()))
+    spectrum = list(map(int, input("Spectrum: ").strip().split()))
     
     mass_table = convolution_cyclopeptide_sequencing(spectrum,M)
 
@@ -23,5 +23,5 @@ if __name__ == "__main__":
     print(f"\nBest score: {best_score}")
     print(f"Number of top peptides: {len(result)}\n")
     for peptide in result:
-        masses = "-".join(str(ord(aa)) for aa in peptide)
+        masses = " ".join(str(ord(aa)) for aa in peptide)
         print(masses, end=" ")

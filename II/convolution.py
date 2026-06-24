@@ -24,13 +24,12 @@ def spectral_spectral_convolution_top_element(counts,M):
     
     threshold = sorted_elements[M - 1][1]  
     return [mass for mass, cnt in sorted_elements if cnt >= threshold]
-
-
     
 
 if __name__ == "__main__":
     spectrum = list(map(int,input("spectrum: ").split(" ")))
     M = int(input("M: ").strip())
+    
     counts = spectral_convolution(spectrum)
     top = spectral_spectral_convolution_top_element(counts,M)
     print(top)

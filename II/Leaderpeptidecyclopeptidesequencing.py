@@ -22,15 +22,15 @@ def trim(leaderboard, spectrum, n, mass_table):
 
 
 def expand(leaderboard, alphabet):
-    return [peptide + [aa] for peptide in leaderboard for aa in alphabet]
+    return [peptide + aa for peptide in leaderboard for aa in alphabet]
 
 
 def leaderpeptide_cyclopeptide_sequencing(spectrum, mass_table, N):
     parent_mass = max(spectrum)
     alphabet = list(mass_table.keys())
 
-    leaderboard = [[]] #[""]
-    leader_peptide = [] #"" 
+    leaderboard = [""]
+    leader_peptide = ""  # single peptide, not a list
     leader_score = 0 
     
     while leaderboard:
@@ -44,7 +44,7 @@ def leaderpeptide_cyclopeptide_sequencing(spectrum, mass_table, N):
                 s = score(peptide, spectrum, mass_table)
                 if s > leader_score:
                     leader_score = s
-                    leader_peptide = peptide  
+                    leader_peptide = peptide  # just replace, no list
                 next_leaderboard.append(peptide)
             elif pep_mass < parent_mass:
                 next_leaderboard.append(peptide) 
@@ -59,7 +59,7 @@ if __name__ == "__main__":
     spectrum = list(map(int, input("Spectrum: ").strip().split()))
 
     result,best_score = leaderpeptide_cyclopeptide_sequencing(spectrum, mass_table, N)
-    #str(mass_table[aa])
-    masses = "-".join( str(aa) for aa in result)
+
+    masses = "-".join(str(mass_table[aa]) for aa in result)
     print(masses,end=" ")
     
