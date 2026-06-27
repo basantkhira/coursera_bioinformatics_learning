@@ -1,3 +1,8 @@
+"""
+input : seq 1 and seq 2
+output : score , lcs
+"""
+
 def lcs_backtrack(v, w):
     n = len(v)
     m = len(w)
@@ -24,47 +29,26 @@ def lcs_backtrack(v, w):
     return backtrack, s
 
 def output_lcs(backtrack, v, i, j):
-    """Iterative reconstruction — no recursion depth issues."""
-    result = []
+    result = [] # forming the subsequent
     while i > 0 and j > 0:
         if backtrack[i][j] == "↘":
-            result.append(v[i - 1])  # match — take the character
+            result.append(v[i - 1])  # match 
             i -= 1
             j -= 1
         elif backtrack[i][j] == "↓":
-            i -= 1                    # came from above — skip
+            i -= 1                    # came from above
         else:
-            j -= 1                    # came from left  — skip
+            j -= 1                    # came from left
     return "".join(reversed(result))  # built backwards so reverse
  
 
-def print_table(s, backtrack, v, w):
-    n, m = len(v), len(w)
-    print("\nScore + Backtrack Table:")
-    print("        " + "   ".join(f" {c}" for c in w))
-    for i in range(n + 1):
-        row_label = f"  {v[i-1] if i > 0 else ' '}  "
-        row = ""
-        for j in range(m + 1):
-            arrow = backtrack[i][j] if backtrack[i][j] else " "
-            row += f" {s[i][j]}{arrow} "
-        print(row_label + row)
-
 if __name__ == "__main__":
-    #input    
-    print("=" * 45)
-    print("       LCS Backtrack")
-    print("=" * 45)
-
-    v = input("\nEnter sequence 1 : ").strip().upper()
-    w = input("Enter sequence 2 :  ").strip().upper()
+    
+    v = input("sequence 1 : ").strip().upper()
+    w = input("sequence 2 :  ").strip().upper()
 
     backtrack, s = lcs_backtrack(v, w)
     lcs          = output_lcs(backtrack, v, len(v), len(w))
 
-    print_table(s, backtrack, v, w)
-
-    print(f"\nSequence 1     : {v}")
-    print(f"Sequence 2     : {w}")
     print(f"LCS length     : {s[len(v)][len(w)]}")
     print(f"LCS            : {lcs}")
