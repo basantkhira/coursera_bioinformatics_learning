@@ -42,6 +42,7 @@ def read_matrices():
 
 if __name__ == "__main__":
     n,m= list(map(int,(input("n m: ").strip().split(" "))))
+    print("format : matrix 1 - matrix 2")
     down , right = read_matrices()
     
     score, s = manhattan_tourist(n, m, down, right)

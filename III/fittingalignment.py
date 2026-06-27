@@ -34,7 +34,7 @@ def create_BLOSUM26():
     
     return BLOSUM26_flat
 
-def fitting_alignment(v, w, score_matrix, gap_penalty=-1):
+def fitting_alignment(v, w, match,mismatch, gap_penalty=-1):
     
     n = len(v)
     m = len(w)
@@ -47,10 +47,13 @@ def fitting_alignment(v, w, score_matrix, gap_penalty=-1):
     # Fill DP table
     for i in range(1, n + 1):
         for j in range(1, m + 1):
-            match_score = score_matrix.get((v[i-1], w[j-1]), gap_penalty)
-            
+            #match_score = score_matrix.get((v[i-1], w[j-1]), gap_penalty)
+            if v[i-1] == w[j-1]:
+                score = match
+            else:
+                score = mismatch
             # Three options
-            diagonal = dp[i-1][j-1] + match_score
+            diagonal = dp[i-1][j-1] + score
             up = dp[i-1][j] + gap_penalty        # Gap in w
             left = dp[i][j-1] + gap_penalty      # Gap in v
             
@@ -73,10 +76,14 @@ def fitting_alignment(v, w, score_matrix, gap_penalty=-1):
     j = max_j
     
     while i > 0:
-        match_score = score_matrix.get((v[i-1], w[j-1] if j > 0 else '-'), gap_penalty)
+        #match_score = score_matrix.get((v[i-1], w[j-1] if j > 0 else '-'), gap_penalty)
+        if v[i-1] == w[j-1]:
+            score = match
+        else:
+            score = mismatch
         
         if j > 0:
-            diagonal = dp[i-1][j-1] + match_score
+            diagonal = dp[i-1][j-1] + score
         else:
             diagonal = -float('inf')
         
@@ -101,25 +108,26 @@ def fitting_alignment(v, w, score_matrix, gap_penalty=-1):
             # Reached beginning
             break
     
-    # Add any remaining prefix of w (without penalty, it's just ignored)
-    while j > 0:
-        aligned_v = "-" + aligned_v
-        aligned_w = w[j-1] + aligned_w
-        j -= 1
+    
     
     return max_score, aligned_v, aligned_w
 
+if __name__ == "__main__":
+    line1 = input().split()
+    match = int(line1[0])
+    mismatch = -int(line1[1])
+    gap_penalty = -int(line1[2])
+    
+    # Read input
+    v = input().strip()
+    w = input().strip()
 
-# Read input
-v = input().strip()
-w = input().strip()
+    score_matrix = create_BLOSUM26()
 
-score_matrix = create_BLOSUM26()
+    # Compute fitting alignment
+    max_score, aligned_v, aligned_w = fitting_alignment(v, w, match,mismatch, gap_penalty)
 
-# Compute fitting alignment
-max_score, aligned_v, aligned_w = fitting_alignment(v, w, score_matrix, gap_penalty=-1)
-
-# Output
-print(max_score)
-print(aligned_v)
-print(aligned_w)
+    # Output
+    print(max_score)
+    print(aligned_v)
+    print(aligned_w)
