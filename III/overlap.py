@@ -8,8 +8,7 @@ def overlap_alignment(v, w, match, mismatch, gap_penalty):
     
     dp = [[0] * (m + 1) for _ in range(n + 1)]
     
-    # Free to skip prefix of v (first row = 0)
-    # But gaps in w (column 0) cost something
+    
     for i in range(n + 1):
         dp[i][0] = i * gap_penalty
     for j in range(m + 1):
@@ -24,7 +23,6 @@ def overlap_alignment(v, w, match, mismatch, gap_penalty):
                 dp[i][j-1] + gap_penalty
             )
     
-    # Max score must be at last row OR last column
     max_score = -float('inf')
     max_i, max_j = n, m
     
@@ -57,21 +55,18 @@ def overlap_alignment(v, w, match, mismatch, gap_penalty):
             aligned_w = w[j-1] + aligned_w
             j -= 1
 
-    
-    
-    # Remaining v (i > 0) is the free prefix skip — don't include it
-    
     return max_score, aligned_v, aligned_w
 
 
 # Read input - FIXED ORDER
-v = input().strip()
-w = input().strip()
 
 line1 = input().split()
 match = int(line1[0])
 mismatch = -int(line1[1])
 gap_penalty = -int(line1[2])
+print("enter the longest first")
+v = input().strip()
+w = input().strip()
 
 # Compute overlap alignment
 max_score, aligned_v, aligned_w = overlap_alignment(v, w, match, mismatch, gap_penalty)
