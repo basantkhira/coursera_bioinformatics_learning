@@ -72,8 +72,8 @@ if __name__ == "__main__":
 
     line1 = input().split()
     match = int(line1[0])
-    mismatch = int(line1[1])
-    gap_penalty = int(line1[2])
+    mismatch = -int(line1[1])
+    gap_penalty = -int(line1[2])
 
     seq1 = input("seq1: ").strip()
     seq2 = input("seq2: ").strip()
