@@ -1,6 +1,7 @@
 import sys
 from collections import defaultdict
 
+#converting the input into a distance matrix
 def solve(input_text):
     lines = input_text.strip().split('\n')
     n = int(lines[0])
@@ -20,7 +21,7 @@ def solve(input_text):
         graph[a].append((b, c))
         max_node = max(max_node, a, b)
     
-
+ # clculating the distance of each node from every other node and storing it in a distance matrix
     def distances_from(source):
         dist = {source: 0}
         stack = [source]
@@ -31,7 +32,7 @@ def solve(input_text):
                     dist[v] = dist[u] + w
                     stack.append(v)
         return dist
-    
+    # building the distance matrix
     matrix = [[0]*n for _ in range(n)]
     for i in range(n):
         d = distances_from(i)

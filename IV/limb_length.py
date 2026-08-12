@@ -1,5 +1,7 @@
 import sys
-
+#the limb length of a leaf j in an additive tree with n leaves and distance matrix D is the length of the edge connecting leaf j to its parent in the tree. 
+#The limb length can be computed using the formula:
+# d(i,j) + d(j,k) - d(i,k) / 2
 def limb_length(n, j, D):
     best = float('inf')
     for i in range(n):
@@ -13,6 +15,7 @@ def limb_length(n, j, D):
                 best = val
     return best
 
+# dealing with the input of distance matrix and calling the limb_length function
 def solve(input_text):
     lines = input_text.strip().split('\n')
     n = int(lines[0])
